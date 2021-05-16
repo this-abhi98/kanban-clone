@@ -1,34 +1,37 @@
 import React, { useState } from 'react';
-import { v4 as uuid } from 'uuid';
 import List from './components/List/List';
 import store from './utils/store';
 import StoreApi from './utils/storeApi';
 import { makeStyles } from '@material-ui/core/styles';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
-import TopBar from './components/TopBar';
+import TopBar from './components/TopBar/TopBar';
 
 const useStyle = makeStyles(() => ({
   root: {
     minHeight: '100vh',
-    background: 'green',
+    background: '#292c33',
     width: '100%',
     overflowY: 'auto',
+    color: 'white',
   },
   listContainer: {
     display: 'flex',
+    padding:'5px',
+    justifyContent:'center',
+
   },
 }));
 
-const backgroundUrl="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fhd%2520background%2F&psig=AOvVaw2l_WOYschIcpsrjlS2K1zM&ust=1621197442235000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCPDi-J7FzPACFQAAAAAdAAAAABAI"
-
 export default function App() {
   const [data, setData] = useState(store);
+  const [cardCount, setCardCount] = useState(6);
 
   const classes = useStyle();
   const addMoreCard = (title, listId) => {
-    console.log(title, listId);
 
-    const newCardId = uuid();
+    const newCardId = 'card-' + cardCount;
+    setCardCount(cardCount+1);
+
     const newCard = {
       id: newCardId,
       title,
@@ -47,40 +50,8 @@ export default function App() {
     setData(newState);
   };
 
-  const addMoreList = (title) => {
-    const newListId = uuid();
-    const newList = {
-      id: newListId,
-      title,
-      cards: [],
-    };
-    const newState = {
-      listIds: [...data.listIds, newListId],
-      lists: {
-        ...data.lists,
-        [newListId]: newList,
-      },
-    };
-    setData(newState);
-  };
-
-  const updateListTitle = (title, listId) => {
-    const list = data.lists[listId];
-    list.title = title;
-
-    const newState = {
-      ...data,
-      lists: {
-        ...data.lists,
-        [listId]: list,
-      },
-    };
-    setData(newState);
-  };
-
   const onDragEnd = (result) => {
     const { destination, source, draggableId, type } = result;
-    console.log('destination', destination, 'source', source, draggableId);
 
     if (!destination) {
       return;
@@ -126,11 +97,10 @@ export default function App() {
   };
 
   return (
-    <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle }}>
+    <StoreApi.Provider value={{ addMoreCard }}>
       <div
         className={classes.root}
         style={{
-          backgroundImage: `url(${backgroundUrl})`,
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
           backgroundolor:"blue"

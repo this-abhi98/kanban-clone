@@ -1,70 +1,48 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with Create React App.
 
-## Available Scripts
+## steps to run the project
 
-In the project directory, you can run:
+In the project directory, you need to run:
 
-### `yarn start`
+ 1.  run `npm install`
+
+ 2. run `npm start`
 
 Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [http://localhost:3000]
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `yarn test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## features of the app and logic used 
 
-### `yarn build`
+1. All the cards that are in the TODO bucket needs to be in grey color. All the
+cards that are in the DOING bucket needs to be in blue color. All the cards
+that are in the DONE bucket needs to be in green color.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+solution explanation :- we pass listTitle (for ex :- todo,doing,done) into the card component from card list component. and then using switch to set corosponding card color according to recieved listTitle. you card see more of it inside card component.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. User can move any cards from one bucket to another.
 
-### `yarn eject`
+solution explanation :- for this purpose we have used `react-beautiful-dnd` package it helped in creating drag and drop coomponent.package have been used according to docs. `onDragEnd` is written on app.js file 
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+3. Every cards needs to have a unique number associated to it. As a user,
+you must be able to distinguish each task from other.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+solution :- here i am tracking the total no. of cards when new card added card no. will be appended.we can also use `uuid()` and other packages but this gives random id thats why i did not use this approach in this particular case.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+4. As a user, you can add a new card in any bucket.
 
-## Learn More
+solution :- simple logic used here simply take the input of new card and then add it to the existing array of particular list and update the state.for more detail you can check `addMoreCard` function inside app component.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+5. As a user, you can also sort the task in the Bucket.
 
-### Code Splitting
+solution :- for sorting i have `arg.sort()` method. we pass array of cards in particular list and type of sort(currently we have only two types of sorting i.e `cardTitle ascending` and `cardTitle descending` it can be increased in future). and it returns the sorted list and then list is updated accordingly.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+Althouth the app and also explanation could have been much better then this but due to time constraints i am leaving it here thanks for reading. I hope i will be able to explain in more detail in the interview(if it happens).Thanks
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

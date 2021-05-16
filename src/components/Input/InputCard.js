@@ -24,7 +24,7 @@ const useStyle = makeStyles((theme) => ({
     margin: theme.spacing(0, 1, 1, 1),
   },
 }));
-export default function InputCard({ setOpen, listId, type }) {
+export default function InputCard({ setOpen, listId }) {
   const classes = useStyle();
   const { addMoreCard } = useContext(storeApi);
   const [title, setTitle] = useState('');
@@ -33,11 +33,9 @@ export default function InputCard({ setOpen, listId, type }) {
     setTitle(e.target.value);
   };
   const handleBtnConfirm = () => {
-    if (type === 'card') {
       addMoreCard(title, listId);
       setTitle('');
       setOpen(false);
-    }
   };
 
   return (
@@ -47,7 +45,6 @@ export default function InputCard({ setOpen, listId, type }) {
           <InputBase
             onChange={handleOnChange}
             multiline
-            onBlur={() => setOpen(false)}
             fullWidth
             inputProps={{
               className: classes.input,

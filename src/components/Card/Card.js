@@ -12,8 +12,22 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-export default function Card({ card, index, cardColor }) {
+export default function Card({ card, index, listTitle }) {
   const classes = useStyle();
+  let cardColor='';
+  switch(listTitle) {
+    case 'Todo':
+      cardColor='grey'
+      break;
+    case 'Doing':
+      cardColor='blue'
+      break;
+    case 'Done':
+        cardColor='green'
+        break;
+    default:
+      cardColor='red'
+  }
 
   return (
     <Draggable draggableId={card.id} index={index}>
@@ -23,7 +37,9 @@ export default function Card({ card, index, cardColor }) {
           {...provided.dragHandleProps}
           {...provided.draggableProps}
         >
-          <Paper className={classes.card}  style={{backgroundColor:cardColor}}>{card.title} {card.id}</Paper>
+          <Paper className={classes.card}  style={{backgroundColor:cardColor}}>
+          <h4>{card.title} </h4>
+           {card.id}</Paper>
         </div>
       )}
     </Draggable>

@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Paper, CssBaseline } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Title from './Title';
-import Card from '../Card';
+import Card from '../Card/Card';
 import InputContainer from '../Input/InputContainer';
-import { Droppable, Draggable } from 'react-beautiful-dnd';
+import { Droppable } from 'react-beautiful-dnd';
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -17,46 +17,47 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 export default function List({ list, index }) {
-  let cardColor='';
-  switch(list.title) {
-    case 'Todo':
-      cardColor='grey'
-      break;
-    case 'Doing':
-      cardColor='blue'
-      break;
-      case 'Done':
-        cardColor='green'
-        break;
-    default:
-      cardColor='red'
-  }
+
+  const [sortedType, setSortedType] = useState('none')
   const classes = useStyle();
-
-
-
-  list.sort(function(a, b) {
-    var nameA = a.name.toUpperCase(); // ignore upper and lowercase
-    var nameB = b.name.toUpperCase(); // ignore upper and lowercase
-    if (nameA < nameB) {
-      return -1;
+function onClickSort() {
+    setSortedType('title');
+    if(sortedType!=="title_ascending"){
+      setSortedType('title_ascending');
+      list.cards.sort(function(a, b) {
+        var titleA = a.title.toUpperCase(); // ignore upper and lowercase
+        var titleB = b.title.toUpperCase(); // ignore upper and lowercase
+        if (titleA < titleB) {
+          return -1;
+        }
+        if (titleA > titleB) {
+          return 1;
+        }      
+        // names must be equal
+        return 0;
+      });
     }
-    if (nameA > nameB) {
-      return 1;
+    else{
+      setSortedType('title_descending');
+      list.cards.sort(function(a, b) {
+        var titleA = a.title.toUpperCase(); // ignore upper and lowercase
+        var titleB = b.title.toUpperCase(); // ignore upper and lowercase
+        if (titleA > titleB) {
+          return -1;
+        }
+        if (titleA < titleB) {
+          return 1;
+        }
+        // names must be equal
+        return 0;
+      });
     }
-  
-    // names must be equal
-    return 0;
-  });
+}
 
-  console.log(list);
   return (
-    <Draggable draggableId={list.id} index={index}>
-      {(provided) => (
-        <div {...provided.draggableProps} ref={provided.innerRef}>
-          <Paper className={classes.root} {...provided.dragHandleProps}>
+          <Paper className={classes.root}>
             <CssBaseline />
-            <Title title={list.title} listId={list.id} />
+            <Title title={list.title} onClickSort={onClickSort} />
             <Droppable droppableId={list.id}>
               {(provided) => (
                 <div
@@ -65,7 +66,7 @@ export default function List({ list, index }) {
                   className={classes.cardContainer}
                 >
                   {list.cards.map((card, index) => (
-                    <Card key={card.id} card={card} index={index} cardColor={cardColor}/>
+                    <Card key={card.id} card={card} index={index} listTitle={list.title}/>
                   ))}
                   {provided.placeholder}
                 </div>
@@ -73,9 +74,5 @@ export default function List({ list, index }) {
             </Droppable>
 
             <InputContainer listId={list.id} type="card" />
-          </Paper>
-        </div>
-      )}
-    </Draggable>
-  );
+          </Paper>)
 }

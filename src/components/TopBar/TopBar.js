@@ -6,12 +6,14 @@ const useStyle = makeStyles((theme) => ({
   root: {
     display: 'flex',
     alignItems: 'center',
-    margin: theme.spacing(2),
+    margin: theme.spacing(3),
   },
   title: {
-    fontSize: '1.2rem',
+    display: 'flex',
+    fontSize: '2.2rem',
     fontWeight: 'bold',
     flexGrow: 1,
+    justifyContent: 'center',
   },
   btn: {
     color: '#fff',
